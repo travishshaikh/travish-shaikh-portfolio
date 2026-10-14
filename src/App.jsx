@@ -47,35 +47,24 @@ function Contact() {
     if (isSubmitting) return
     const honey = e.currentTarget.querySelector('[name="_honey"]')?.value || ''
     if (honey) { setStatus('Unable to send this inquiry.'); return }
-    if (!site.email) { setStatus('The contact email is not configured. Please try again later.'); return }
     setIsSubmitting(true)
     setStatus('Sending your inquiry…')
     try {
-      const response = await fetch(`https://formsubmit.co/ajax/${encodeURIComponent(site.email)}`, {
+      const response = await fetch('/api/contact', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-        body: JSON.stringify({
-          ...form,
-          _subject: `Portfolio inquiry — ${form.type}`,
-          _replyto: form.email,
-          _honey: honey
-        })
+        body: JSON.stringify({ ...form, _honey: honey })
       })
-      let result
-      try {
-        result = await response.json()
-      } catch {
-        throw new Error('The email service returned an unreadable response. Please check the deployed site and try again.')
+      const result = await response.json().catch(() => ({}))
+      if (!response.ok || result.success !== true) {
+        throw new Error(result.error || 'The email service could not send this inquiry.')
       }
-      if (!response.ok || String(result.success) !== 'true') {
-        throw new Error(result.message || 'The email service rejected this inquiry. Check the recipient activation email and try again.')
-      }
-      setStatus(`Inquiry submitted successfully. If this is your first submission, check ${site.email} for a FormSubmit activation email and confirm it to enable delivery.`)
+      setStatus('Thanks! Your inquiry has been sent. I’ll get back to you soon.')
       setForm({ name: '', email: '', company: '', type: 'WordPress Website', budget: 'Not sure yet', message: '' })
     } catch (error) {
       console.error('Portfolio contact form submission failed:', error)
-      const reason = error instanceof Error && error.message ? error.message : 'A network or browser request error occurred.'
-      setStatus(`Could not send inquiry: ${reason} If needed, email ${site.email} directly.`)
+      const reason = error instanceof Error && error.message ? error.message : 'A network or server error occurred.'
+      setStatus(`Could not send inquiry: ${reason} You can also email ${site.email} directly.`)
     } finally {
       setIsSubmitting(false)
     }
