@@ -26,3 +26,7 @@ Edit `src/data/projects.js` to update project cards. Project visuals are CSS-gen
 
 ## Deploy
 Deploy the Vite app to Vercel, Netlify, Cloudflare Pages, or any static host. Build command: `npm run build`. Output directory: `dist`.
+
+
+## Contact form
+The contact section is preconfigured to address inquiries to `Travishshaikh30@gmail.com`. The current static form opens the visitor's email app with the form details prefilled; it does not silently send messages from the website. For direct submissions without opening an email app, connect a form endpoint or backend.
