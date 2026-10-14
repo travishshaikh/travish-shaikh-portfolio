@@ -27,7 +27,7 @@ export default async function handler(req, res) {
     return res.status(400).json({ success: false, error: 'Please complete your name, email, and project details.' })
   }
 
-  if (!/^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/.test(email)) {
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
     return res.status(400).json({ success: false, error: 'Please enter a valid email address.' })
   }
 
@@ -44,7 +44,7 @@ export default async function handler(req, res) {
   const safeCompany = escapeHtml(company || 'Not provided')
   const safeType = escapeHtml(type)
   const safeBudget = escapeHtml(budget)
-  const safeMessage = escapeHtml(message).replace(/\\r?\\n/g, '<br>')
+  const safeMessage = escapeHtml(message).replace(/\r?\n/g, '<br>')
 
   try {
     const response = await fetch('https://api.resend.com/emails', {
@@ -69,7 +69,7 @@ export default async function handler(req, res) {
           '',
           'Project details:',
           message,
-        ].join('\\n'),
+        ].join('\n'),
         html: `<h2>New portfolio inquiry</h2>
           <p><strong>Name:</strong> ${safeName}</p>
           <p><strong>Email:</strong> ${safeEmail}</p>
