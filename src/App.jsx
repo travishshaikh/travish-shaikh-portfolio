@@ -61,14 +61,21 @@ function Contact() {
           _honey: honey
         })
       })
-      const result = await response.json()
-      if (!response.ok || result.success === false || result.success === 'false') {
-        throw new Error(result.message || 'The email service could not accept this message.')
+      let result
+      try {
+        result = await response.json()
+      } catch {
+        throw new Error('The email service returned an unreadable response. Please check the deployed site and try again.')
       }
-      setStatus(`Inquiry submitted. If this is your first submission, check ${site.email} for a FormSubmit activation email and confirm it to enable delivery.`)
+      if (!response.ok || String(result.success) !== 'true') {
+        throw new Error(result.message || 'The email service rejected this inquiry. Check the recipient activation email and try again.')
+      }
+      setStatus(`Inquiry submitted successfully. If this is your first submission, check ${site.email} for a FormSubmit activation email and confirm it to enable delivery.`)
       setForm({ name: '', email: '', company: '', type: 'WordPress Website', budget: 'Not sure yet', message: '' })
     } catch (error) {
-      setStatus(`Sorry, your inquiry could not be sent. Please try again, or email ${site.email} directly.`)
+      console.error('Portfolio contact form submission failed:', error)
+      const reason = error instanceof Error && error.message ? error.message : 'A network or browser request error occurred.'
+      setStatus(`Could not send inquiry: ${reason} If needed, email ${site.email} directly.`)
     } finally {
       setIsSubmitting(false)
     }
