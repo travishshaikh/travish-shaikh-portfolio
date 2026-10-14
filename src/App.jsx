@@ -42,6 +42,7 @@ function FlowCursor() {
       finePointer.removeEventListener?.('change', sync)
       reducedMotion.removeEventListener?.('change', sync)
     }
+    document.body.classList.add('has-custom-cursor')
     const aura = document.querySelector('.cursor-aura')
     const ring = document.querySelector('.cursor-ring')
     const dot = document.querySelector('.cursor-dot')
@@ -76,10 +77,9 @@ function FlowCursor() {
       window.removeEventListener('pointerup', up)
       finePointer.removeEventListener?.('change', sync)
       reducedMotion.removeEventListener?.('change', sync)
-      document.body.classList.remove('cursor-hover', 'cursor-press')
+      document.body.classList.remove('cursor-hover', 'cursor-press', 'has-custom-cursor')
     }
   }, [])
-  if (!enabled) return null
-  return <div className="custom-cursor" aria-hidden="true"><span className="cursor-aura"/><span className="cursor-ring"/><span className="cursor-dot"/></div>
+  return <div className={enabled ? 'custom-cursor' : 'custom-cursor cursor-disabled'} aria-hidden="true"><span className="cursor-aura"/><span className="cursor-ring"/><span className="cursor-dot"/></div>
 }
 export default function App() { return <><FlowCursor/><Navbar/><main><Hero/><div className="marquee"><div>WORDPRESS <i>✳</i> SHOPIFY <i>✳</i> CUSTOM LIQUID <i>✳</i> RESPONSIVE DEVELOPMENT <i>✳</i> WORDPRESS <i>✳</i> SHOPIFY <i>✳</i> CUSTOM LIQUID <i>✳</i></div></div><Services/><Projects/><About/><Capabilities/><Process/><Contact/></main><Footer/></> }
