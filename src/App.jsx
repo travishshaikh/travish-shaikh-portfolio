@@ -45,6 +45,8 @@ function Contact() {
   const submit = async e => {
     e.preventDefault()
     if (isSubmitting) return
+    const honey = e.currentTarget.querySelector('[name="_honey"]')?.value || ''
+    if (honey) { setStatus('Unable to send this inquiry.'); return }
     if (!site.email) { setStatus('The contact email is not configured. Please try again later.'); return }
     setIsSubmitting(true)
     setStatus('Sending your inquiry…')
@@ -56,7 +58,7 @@ function Contact() {
           ...form,
           _subject: `Portfolio inquiry — ${form.type}`,
           _replyto: form.email,
-          _honey: ''
+          _honey: honey
         })
       })
       const result = await response.json()
