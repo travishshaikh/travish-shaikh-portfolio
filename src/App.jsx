@@ -4,7 +4,7 @@ import { ArrowDown, ArrowRight, ArrowUpRight, Code2, Layers3, ShoppingBag, Wrenc
 import { projects } from './data/projects'
 import { site } from './config/site'
 
-const filters = ['All', 'Shopify', 'WordPress', 'E-commerce', 'Corporate']
+const filters = ['All', 'Shopify', 'WordPress', 'E-commerce', 'Corporate', 'Custom']
 const matchesFilter = (project, filter) => filter === 'All' || project.category === filter || project.platform === filter || (filter === 'WordPress' && project.platform.startsWith('WordPress'))
 const services = [
   { n: '01', icon: Layers3, title: 'WordPress development', text: 'Professional websites shaped around your brand, content, and business goals.', points: ['Theme & page customization', 'Elementor and Gutenberg', 'Responsive redesigns'] },
