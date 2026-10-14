@@ -65,7 +65,6 @@ function Contact() {
       }
       setStatus('Thanks! Your inquiry has been sent. I’ll get back to you soon.')
       setForm({ name: '', email: '', company: '', type: 'WordPress Website', budget: 'Not sure yet', message: '' })
-      e.currentTarget.reset()
     } catch (error) {
       console.error('Portfolio contact form submission failed:', error)
       const reason = error instanceof Error && error.message ? error.message : 'A network or server error occurred.'
