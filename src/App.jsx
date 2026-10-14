@@ -50,17 +50,22 @@ function Contact() {
     setIsSubmitting(true)
     setStatus('Sending your inquiry…')
     try {
-      const response = await fetch('/api/contact', {
+      const formData = new FormData(e.currentTarget)
+      formData.append('access_key', '3f69b7fb-b9d1-4dc9-b505-b24641a5677f')
+      formData.append('subject', `Portfolio inquiry — ${form.type}`)
+      formData.append('from_name', 'Travish Shaikh Portfolio')
+
+      const response = await fetch('https://api.web3forms.com/submit', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-        body: JSON.stringify({ ...form, _honey: honey })
+        body: formData
       })
       const result = await response.json().catch(() => ({}))
       if (!response.ok || result.success !== true) {
-        throw new Error(result.error || 'The email service could not send this inquiry.')
+        throw new Error(result.message || 'Web3Forms could not send this inquiry. Please try again.')
       }
       setStatus('Thanks! Your inquiry has been sent. I’ll get back to you soon.')
       setForm({ name: '', email: '', company: '', type: 'WordPress Website', budget: 'Not sure yet', message: '' })
+      e.currentTarget.reset()
     } catch (error) {
       console.error('Portfolio contact form submission failed:', error)
       const reason = error instanceof Error && error.message ? error.message : 'A network or server error occurred.'
