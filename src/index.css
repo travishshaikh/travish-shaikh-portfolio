@@ -39,3 +39,11 @@ body.cursor-press .cursor-ring{width:20px;height:20px;background:#c7f46430}
 @media(prefers-reduced-motion:reduce){.marquee>div{animation:none}.cursor-aura,.cursor-ring,.cursor-dot{display:none}}
 
 .cursor-disabled{display:none}
+
+/* Live website screenshots inside portfolio project cards */
+.project-screenshot{display:block;width:100%;height:100%;object-fit:cover;object-position:top center;position:absolute;inset:0;transition:transform .55s cubic-bezier(.2,.8,.2,1),filter .3s}
+.project-card:hover .project-screenshot{transform:scale(1.025);filter:saturate(1.04)}
+.project-image:has(.project-screenshot){background:#191a1e}
+.project-image:has(.project-screenshot):after{content:'';position:absolute;inset:0;pointer-events:none;background:linear-gradient(180deg,transparent 68%,#10111426)}
+.honeypot{position:absolute!important;left:-10000px!important;top:auto!important;width:1px!important;height:1px!important;overflow:hidden!important}
+.submit-button:disabled{opacity:.65;cursor:wait;transform:none}
