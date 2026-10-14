@@ -19,7 +19,14 @@ npm run preview
 ```
 
 ## Configure contact and social links
-Create a `.env` file from `.env.example` and set `VITE_CONTACT_EMAIL`, `VITE_LINKEDIN_URL`, and `VITE_GITHUB_URL`. Vite variables are public in the browser, so never put secrets in them. The contact form currently prepares an email through the visitor's mail app; use a form service or server endpoint for direct submissions.
+Create a `.env` file from `.env.example` and set `VITE_CONTACT_EMAIL`, `VITE_LINKEDIN_URL`, and `VITE_GITHUB_URL`. Vite variables are public in the browser, so never put secrets in them.
+
+## Resend contact form on Vercel
+The contact form posts to `/api/contact`, a Vercel serverless function that sends the inquiry through Resend. In Vercel Project Settings → Environment Variables, set:
+- `RESEND_API_KEY`: your Resend API key (server-side only; never use a `VITE_` prefix).
+- `RESEND_TO_EMAIL`: `travishshaikh30@gmail.com` (optional; this is the default recipient).
+
+Until you verify your own domain in Resend, use `onboarding@resend.dev` as the sender, and the recipient must be the email address associated with your Resend account. To deliver to a different recipient, verify a domain in Resend and update the sender in `api/contact.js` to an address on that verified domain. After adding or changing environment variables, redeploy the Vercel project.
 
 ## Project content
 Edit `src/data/projects.js` to update project cards. Project visuals are CSS-generated illustrative previews, not screenshots of the live sites. Replace them with real screenshots before publishing. Review each project's `contributionVerified` value before claiming it as completed work.
