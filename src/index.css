@@ -37,3 +37,5 @@ body.cursor-press .cursor-ring{width:20px;height:20px;background:#c7f46430}
 @media(hover:hover) and (pointer:fine){.custom-cursor{display:block}}
 @media(hover:none),(pointer:coarse){.custom-cursor{display:none}}
 @media(prefers-reduced-motion:reduce){.marquee>div{animation:none}.cursor-aura,.cursor-ring,.cursor-dot{display:none}}
+
+.cursor-disabled{display:none}
