@@ -25,6 +25,11 @@ function Services() { return <section id="services" className="section container
 function ProjectCard({ project, index }) {
   const [screenshotFailed, setScreenshotFailed] = useState(false)
   const screenshotUrl = `https://image.thum.io/get/width/900/crop/600/noanimate/${project.url}`
+  useEffect(() => {
+    if (screenshotFailed) return
+    const timeoutId = window.setTimeout(() => setScreenshotFailed(true), 8000)
+    return () => window.clearTimeout(timeoutId)
+  }, [screenshotFailed, screenshotUrl])
   return <motion.article className={`project-card project-${index % 2}`} layout initial={{ opacity: 0, y: 18 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, amount: .12 }} transition={{ duration: .45, delay: (index % 2) * .06 }}>
     <a className={`project-image image-${project.image}`} href={project.url} target="_blank" rel="noreferrer" aria-label={`Visit ${project.name}`}>
       {!screenshotFailed ? <img className="project-screenshot" src={screenshotUrl} alt={`Screenshot preview of ${project.name} website`} loading="lazy" onError={() => setScreenshotFailed(true)} /> : <div className="preview-browser"><div className="preview-bar"><span/><span/><span/><small>{new URL(project.url).hostname}</small></div><div className="preview-content"><span className="preview-kicker">{project.category.toUpperCase()} / SELECTED WORK</span><div className="preview-heading">{project.name}<i>.</i></div><div className="preview-rule"/><div className="preview-lines"><i/><i/><i/></div><div className="preview-orb"/><div className="preview-foot">EXPLORE MORE <ArrowUpRight size={13}/></div></div></div>}
